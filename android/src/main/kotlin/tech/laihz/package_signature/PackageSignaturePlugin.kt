@@ -32,14 +32,14 @@ class PackageSignaturePlugin : FlutterPlugin, PackagePortal {
     override fun appSignature(): ByteArray? {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
             val packageInfo = context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_SIGNATURES)
-            return if(packageInfo.signatures.isEmpty()) {
+            return if(packageInfo.signatures!!.isEmpty()) {
                 null
             } else {
-                packageInfo.signatures.first().toByteArray()
+                packageInfo.signatures!!.first().toByteArray()
             }
         } else {
             val packageInfo: PackageInfo = context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_SIGNING_CERTIFICATES)
-            val signer = packageInfo.signingInfo.apkContentsSigners
+            val signer = packageInfo.signingInfo!!.apkContentsSigners
             return if(signer.isEmpty()) {
                 null
             }else {
